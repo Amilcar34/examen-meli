@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="loading" lang="es" data-textdirection="ltr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+	<meta name="author" content="Gabriel Montenegro" />
+	<title>Morse Meli</title>
+	<link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap-4.3.1-dist/css/bootstrap.min.css" />
+</head>
+
+<body>
+
+	<nav class="navbar navbar-dark bg-primary">
+		<a class="navbar-brand" href="/">Morse Meli</a>
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			<li class="nav-item active">
+				<a class="nav-link" href="/messages">Messages
+				</a>
+			</li>
+		</ul>
+		<a class="navbar-brand right" href="/logout">Log out</a>
+	</nav>
+
+	<main class="container">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-7">
+					<H2 class="bd-title">Codigo morse</H2>
+					<p>El estandar para el envio de mensaje en codigo morse es el siguientes:
+					</p>
+					<ul>
+						<li>Un punto es la unidad minima.</li>
+						<li>Tres puntos equivalen a un trazo.</li>
+						<li>Un silencio equivalente a un punto es el separador entre cada punto o trazo.</li>
+						<li>Un silencio equivalente a tres puntos es el separador entre caracteres.</li>
+						<li>Un silencio equivalente a siete puntos es el separador entre palabras.</li>
+					</ul>
+					<H2 class="bd-title">Velocidad del emisor</H2>
+					<p>El estandar para determinar la velocidad del emisor es enviar un primer mensaje con la palabra
+						"PARIS" (<b>.--. .- .-. .. ...</b>) escrita 5 veces. Al comenzar con el envio del mensaje se le
+						exigira que ingrese este primer mensaje.
+					</p>
+					<H2 class="bd-title">Alfabeto morse</H2>
+					<div class="row">
+						<div class="col-md-3">
+							<table class="table table-sm">
+								<tbody>
+									<tr>
+										<td>A</td>
+										<td>.-</td>
+									</tr>
+									<tr>
+										<td>B</td>
+										<td>-...</td>
+									</tr>
+									<tr>
+										<td>C</td>
+										<td>-.-.</td>
+									</tr>
+									<tr>
+										<td>D</td>
+										<td>-..</td>
+									</tr>
+									<tr>
+										<td>E</td>
+										<td>.</td>
+									</tr>
+									<tr>
+										<td>F</td>
+										<td>..-.</td>
+									</tr>
+									<tr>
+										<td>G</td>
+										<td>--.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-3">
+							<table class="table table-sm">
+								<tbody>
+									<tr>
+										<td>H</td>
+										<td>....</td>
+									</tr>
+									<tr>
+										<td>I</td>
+										<td>..</td>
+									</tr>
+									<tr>
+										<td>J</td>
+										<td>.---</td>
+									</tr>
+									<tr>
+										<td>K</td>
+										<td>-.-</td>
+									</tr>
+									<tr>
+										<td>L</td>
+										<td>.-..</td>
+									</tr>
+									<tr>
+										<td>M</td>
+										<td>--</td>
+									</tr>
+									<tr>
+										<td>N</td>
+										<td>-.</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-3">
+							<table class="table table-sm">
+								<tbody>
+									<tr>
+										<td>O</td>
+										<td>---</td>
+									</tr>
+									<tr>
+										<td>P</td>
+										<td>.--.</td>
+									</tr>
+									<tr>
+										<td>Q</td>
+										<td>--.-</td>
+									</tr>
+									<tr>
+										<td>R</td>
+										<td>.-.</td>
+									</tr>
+									<tr>
+										<td>S</td>
+										<td>...</td>
+									</tr>
+									<tr>
+										<td>T</td>
+										<td>-</td>
+									</tr>
+									<tr>
+										<td>U</td>
+										<td>..-</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-3">
+							<table class="table table-sm">
+								<tbody>
+									<tr>
+										<td>V</td>
+										<td>...-</td>
+									</tr>
+									<tr>
+										<td>W</td>
+										<td>.--</td>
+									</tr>
+									<tr>
+										<td>X</td>
+										<td>-..-</td>
+									</tr>
+									<tr>
+										<td>Y</td>
+										<td>-.--</td>
+									</tr>
+									<tr>
+										<td>Z</td>
+										<td>--..</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="col-md-12">
+						<H2 class="bd-title">Enviar mensaje</H2>
+						<div class="row pb-3">
+							<label for="mensaje">Representacion en bits del mensaje</label>
+							<textarea class="form-control col-md-12 message-text-area" readonly id="mensaje"
+								rows="10"></textarea>
+						</div>
+						<div class="row pull-right">
+							<button class="btn btn-primary btn-lg button mr-2 write-button"
+								disabled>Presioname!</button>
+							<button class="btn btn-primary btn-lg button mr-2 start-button">Comenzar</button>
+							<button class="btn btn-success btn-lg stopButton mr-2 send-button">Enviar</button>
+						</div>
+						<div class="row">
+							<p class="first-message-info">Para enviar tu mensaje, primero debemos medir tu velocidad:
+								presiona el
+								boton comenzar y escribe 5 veces la palabra "PARIS" (
+								<b>.--. .- .-. .. ...</b>)
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script src="../static/vendor/jQuery/jquery.min.js" type="text/javascript"></script>
+	<script src="../static/vendor/bootstrap-4.3.1-dist/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../static/js/connector/morseTranslatorConnector.js" type="text/javascript"></script>
+	<script src="../static/js/ui/index.js" type="text/javascript"></script>
+</body>
+
+</html>
