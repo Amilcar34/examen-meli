@@ -1,17 +1,13 @@
 var morseTransalatorConnector = (function () {
     var url = window.location.origin + "/api";
 
-    function sendMessage(message, standardMessage) {
-        var bodyMessage = {};
-        bodyMessage.message = message;
-        bodyMessage.standardMessage = standardMessage;
-        console.log("Envie el mensaje");
+    function sendMessage(message) {
 
         return $.ajax({
             contentType: 'application/json; charset=UTF-8',
-            url: url + "/transalte2HumaFromBits",
+            url: url + "/send",
             type: 'POST',
-            data: JSON.stringify(bodyMessage)
+            data: JSON.stringify(message)
         });
     }
 

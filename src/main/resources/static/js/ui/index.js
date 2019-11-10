@@ -1,8 +1,8 @@
 var indexUi = (function () {
 
 	var startTime;
+	var message = new Message();
 	var pause;
-	var standardmessageAsBits;
 	var messageAsMiliSeconds = [];
 	var writingButtonTemplate = "<span class='spinner-grow spinner - grow - sm' role='status' aria-hidden='true'></span> Escribiendo"
 	var isTheFirstMessage = true;
@@ -14,12 +14,21 @@ var indexUi = (function () {
 		$(".send-button").click(send);
 	}
 
+	function startMessage() {
+		pause = new Date();
+		changeStartButtonByLoader();
+		$(".write-button").prop("disabled", false);
+		$(".message-text-area").text("");
+	}
+
+	function changeStartButtonByLoader() {
+		$(".start-button").empty().prop("disabled", true).append(writingButtonTemplate);
+	}
+
 	function start() {
 		var now = new Date();
 		messageAsMiliSeconds.push(now - pause);
 		startTime = new Date();
-
-		$(".message-text-area").text("000");
 	}
 
 	function stop() {
@@ -28,27 +37,21 @@ var indexUi = (function () {
 		pause = new Date();
 	}
 
-	function startMessage() {
-		pause = new Date();
-		changeStartButtonByLoader();
-		$(".write-button").prop("disabled", false);
-	}
-
-	function changeStartButtonByLoader() {
-		$(".start-button").empty().prop("disabled", true).append(writingButtonTemplate);
-	}
-
 	function send() {
 		stop();
-		alert(messageAsMiliSeconds);
-		var message = convertToBit();
+		var messageConverted = miliSecondsToBitParser.convertToBit(messageAsMiliSeconds);
+
 		if (isTheFirstMessage) {
-			standardmessageAsBits = message;
+			message.bitMessage.standardMessage = messageConverted;
 			isTheFirstMessage = false;
-			console.log(standardmessageAsBits);
 			$(".first-message-info").text("Ya puedes enviar tu mensaje!");
 		} else {
-			morseTransalatorConnector.send(message, standardmessageAsBits);
+			message.bitMessage.message = messageConverted;
+			$(".message-text-area").text(messageConverted);
+			message.from = $(".sender-name").text();
+			message.recipient = $(".recipient-name").val();
+			morseTransalatorConnector.send(message)
+				.done(successMessage);
 		}
 
 		messageAsMiliSeconds = [];
@@ -56,24 +59,34 @@ var indexUi = (function () {
 		$(".write-button").prop("disabled", true);
 	}
 
+	function successMessage(response) {
+		if (isMobile()) {
+			alert("El mensaje enviado fue: " + response);
+		} else {
+			$('.toast-body').text("El mensaje enviado fue: " + response);
+			$('.toast').toast('show');
+		}
+	}
+
+	function isMobile() {
+		if (navigator.userAgent.match(/Android/i) ||
+			navigator.userAgent.match(/webOS/i) ||
+			navigator.userAgent.match(/iPhone/i) ||
+			navigator.userAgent.match(/iPad/i) ||
+			navigator.userAgent.match(/iPod/i) ||
+			navigator.userAgent.match(/BlackBerry/i) ||
+			navigator.userAgent.match(/Windows Phone/i)
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function changeToOriginalStartButton() {
 		$(".start-button").prop("disabled", false).text("Comenzar");
 	}
 
-	function convertToBit() {
-		var message = "";
-		for (let index = 0; index < messageAsMiliSeconds.length; index++) {
-			var time = messageAsMiliSeconds[index] / 10;
-			var characterToConcat = index % 2 == 0 ? "0" : "1";
-			message = add(time, characterToConcat, message);
-		}
-		return message;
-	}
-
-	function add(amount, value, message) {
-		var bitToConcat = value.repeat(amount);
-		return message.concat(bitToConcat);
-	}
 	return {
 		eventListener: eventListener
 	};

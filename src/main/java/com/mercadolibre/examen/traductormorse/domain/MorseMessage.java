@@ -7,10 +7,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.validation.constraints.NotBlank;
+
+import io.swagger.annotations.ApiModelProperty;
+
 public class MorseMessage {
 
 	public static final Map<String, String> MORSE_ALPHABET = new HashMap<String, String>();
 	private static final String PATTERN_SEPARATOR_BY_SPACES = "(?=(?!^)\\s)(?<!\\s)|(?!\\s)(?<=\\s)";
+	@NotBlank
+	@ApiModelProperty(notes = "El mensaje en codigo morse a decodificar.")
 	private String message;
 
 	static {
