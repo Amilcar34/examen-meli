@@ -10,9 +10,9 @@
 					<H2 class="bd-title">Contactos</H2>
 					<div class="list-group" id="list-tab" role="tablist">
 						<th:block th:each="message, index : ${messages}">
-							<a class="list-group-item list-group-item-action contacto" th:text="${message.from}" <!--
+							<a class="list-group-item list-group-item-action contacto" th:text="${message.from}" 
 								data-toggle="list" th:attr="data-id-contacto=${index.index}"
-								th:href="${'#' + message.from}" role="tab" -->
+								th:href="${'#' + message.from}" role="tab" 
 								aria-controls="home"></a>
 						</th:block>
 					</div>
