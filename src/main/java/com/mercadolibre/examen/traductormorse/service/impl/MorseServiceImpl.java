@@ -13,6 +13,8 @@ import com.mercadolibre.examen.traductormorse.service.MorseService;
 @Service
 public class MorseServiceImpl implements MorseService {
 
+	private static final String UNKNOWN_CHARACTER = "?";
+
 	@Override
 	public String decodeBits2Morse(BitMessage morseMessage) {
 		MessageSpeed messageSpeed = new MessageSpeed(morseMessage);
@@ -54,7 +56,9 @@ public class MorseServiceImpl implements MorseService {
 		String messageAsHumanLanguage = "";
 		for (String partOfMessage : message.separateMessage()) {
 			if (isDohOrDash(partOfMessage)) {
-				messageAsHumanLanguage = messageAsHumanLanguage.concat(MorseMessage.MORSE_ALPHABET.get(partOfMessage));
+				String character = MorseMessage.MORSE_ALPHABET.get(partOfMessage);
+				messageAsHumanLanguage = messageAsHumanLanguage
+						.concat(character == null ? UNKNOWN_CHARACTER : character);
 			} else {
 				messageAsHumanLanguage = concatSpace(messageAsHumanLanguage, partOfMessage);
 			}

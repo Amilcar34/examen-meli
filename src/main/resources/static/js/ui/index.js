@@ -39,6 +39,7 @@ var indexUi = (function () {
 	}
 
 	function send() {
+		stop();
 		alert(messageAsMiliSeconds);
 		var message = convertToBit();
 		if (isTheFirstMessage) {
@@ -62,14 +63,9 @@ var indexUi = (function () {
 	function convertToBit() {
 		var message = "";
 		for (let index = 0; index < messageAsMiliSeconds.length; index++) {
-			const time = messageAsMiliSeconds[index];
-			var totalOfBit = Math.floor(time / 100);
+			var time = messageAsMiliSeconds[index] / 10;
 			var characterToConcat = index % 2 == 0 ? "0" : "1";
-			if (totalOfBit === 0) {
-				message = add(1, characterToConcat, message);
-			} else {
-				message = add(totalOfBit, characterToConcat, message);
-			}
+			message = add(time, characterToConcat, message);
 		}
 		return message;
 	}
