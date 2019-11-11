@@ -8,10 +8,11 @@ var indexUi = (function () {
 	var isTheFirstMessage = true;
 
 	function eventListener() {
-		$(".write-button").mousedown(start);
-		$(".write-button").mouseup(stop);
+		$(".write-button").on("mousedown touchstart", start);
+		$(".write-button").on("mouseup touchend", stop);
 		$(".start-button").click(startMessage);
 		$(".send-button").click(send);
+		$(".send-button").on(send);
 	}
 
 	function startMessage() {

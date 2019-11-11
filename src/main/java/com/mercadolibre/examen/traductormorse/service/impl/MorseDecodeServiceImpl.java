@@ -8,12 +8,13 @@ import com.mercadolibre.examen.traductormorse.domain.BitMessage;
 import com.mercadolibre.examen.traductormorse.domain.MessageSpeed;
 import com.mercadolibre.examen.traductormorse.domain.MorseElements;
 import com.mercadolibre.examen.traductormorse.domain.MorseMessage;
-import com.mercadolibre.examen.traductormorse.service.MorseService;
+import com.mercadolibre.examen.traductormorse.service.MorseDecodeService;
 
 @Service
-public class MorseServiceImpl implements MorseService {
+public class MorseDecodeServiceImpl implements MorseDecodeService {
 
 	private static final String UNKNOWN_CHARACTER = "?";
+	private static final String DOH_OR_DASH_ELEMENT = "1";
 
 	@Override
 	public String decodeBits2Morse(BitMessage morseMessage) {
@@ -23,7 +24,7 @@ public class MorseServiceImpl implements MorseService {
 
 		while (partsOfMessage.hasNext()) {
 			String partOfMessage = partsOfMessage.next();
-			if (partOfMessage.contains("1")) {
+			if (partOfMessage.contains(DOH_OR_DASH_ELEMENT)) {
 				messageAsMorse = concatDohOrDash(partOfMessage, messageSpeed, messageAsMorse);
 			} else {
 				messageAsMorse = concatSeparator(partOfMessage, messageSpeed, messageAsMorse);
@@ -31,6 +32,21 @@ public class MorseServiceImpl implements MorseService {
 		}
 
 		return messageAsMorse;
+	}
+
+	@Override
+	public String transalate2Human(MorseMessage message) {
+		String messageAsHumanLanguage = "";
+		for (String partOfMessage : message.separateMessage()) {
+			if (isDohOrDash(partOfMessage)) {
+				String character = MorseMessage.MORSE_ALPHABET.get(partOfMessage);
+				messageAsHumanLanguage = messageAsHumanLanguage
+						.concat(character == null ? UNKNOWN_CHARACTER : character);
+			} else {
+				messageAsHumanLanguage = concatSpace(messageAsHumanLanguage, partOfMessage);
+			}
+		}
+		return messageAsHumanLanguage;
 	}
 
 	private String concatDohOrDash(String partOfMessage, MessageSpeed messageSpeed, String messageAsMorse) {
@@ -51,21 +67,6 @@ public class MorseServiceImpl implements MorseService {
 		}
 	}
 
-	@Override
-	public String transalate2Human(MorseMessage message) {
-		String messageAsHumanLanguage = "";
-		for (String partOfMessage : message.separateMessage()) {
-			if (isDohOrDash(partOfMessage)) {
-				String character = MorseMessage.MORSE_ALPHABET.get(partOfMessage);
-				messageAsHumanLanguage = messageAsHumanLanguage
-						.concat(character == null ? UNKNOWN_CHARACTER : character);
-			} else {
-				messageAsHumanLanguage = concatSpace(messageAsHumanLanguage, partOfMessage);
-			}
-		}
-		return messageAsHumanLanguage;
-	}
-
 	private boolean isDohOrDash(String partOfMessage) {
 		return partOfMessage.contains(MorseElements.DOH.getValue())
 				|| partOfMessage.contains(MorseElements.DASH.getValue());
@@ -76,8 +77,9 @@ public class MorseServiceImpl implements MorseService {
 			return messageAsHumanLanguage.concat(MorseElements.SEPARATOR_INTRA_CHARACTER.getValue());
 		} else if (MorseElements.SEPARATOR_INTER_CHARACTER.getValue().equals(partOfMessage)) {
 			return messageAsHumanLanguage.concat("");
+		} else {
+			return messageAsHumanLanguage.concat(" ");
 		}
-		return messageAsHumanLanguage.concat(" ");
 	}
 
 }

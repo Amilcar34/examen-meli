@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.mercadolibre.examen.traductormorse.domain.Message;
 import com.mercadolibre.examen.traductormorse.dto.MessageResponseDTO;
-import com.mercadolibre.examen.traductormorse.service.MessageSenderService;
+import com.mercadolibre.examen.traductormorse.service.MessageService;
 
 @Controller
 public class HomeController {
 
 	@Autowired
-	private MessageSenderService messageSenderService;
+	private MessageService messageSenderService;
 
 	@GetMapping("/")
 	public String login() {

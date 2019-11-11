@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mercadolibre.examen.traductormorse.domain.BitMessage;
 import com.mercadolibre.examen.traductormorse.domain.MorseMessage;
 import com.mercadolibre.examen.traductormorse.dto.MessageDTO;
-import com.mercadolibre.examen.traductormorse.service.MessageSenderService;
-import com.mercadolibre.examen.traductormorse.service.MorseService;
+import com.mercadolibre.examen.traductormorse.service.MessageService;
+import com.mercadolibre.examen.traductormorse.service.MorseDecodeService;
 
 @RestController
 @RequestMapping("/api")
 public class MorseRestController {
 
 	@Autowired
-	private MorseService morseService;
+	private MorseDecodeService morseService;
 	@Autowired
-	private MessageSenderService messageSenderService;
+	private MessageService messageSenderService;
 	
 	@PostMapping("send")
 	public String send(@Valid @RequestBody MessageDTO message) {

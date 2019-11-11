@@ -10,14 +10,14 @@ import com.mercadolibre.examen.traductormorse.domain.Message;
 import com.mercadolibre.examen.traductormorse.domain.MorseMessage;
 import com.mercadolibre.examen.traductormorse.dto.MessageDTO;
 import com.mercadolibre.examen.traductormorse.repository.MessageRepository;
-import com.mercadolibre.examen.traductormorse.service.MessageSenderService;
-import com.mercadolibre.examen.traductormorse.service.MorseService;
+import com.mercadolibre.examen.traductormorse.service.MessageService;
+import com.mercadolibre.examen.traductormorse.service.MorseDecodeService;
 
 @Service
-public class MessageSenderServiceImpl implements MessageSenderService {
+public class MessageServiceImpl implements MessageService {
 
 	@Autowired
-	private MorseService morseService;
+	private MorseDecodeService morseService;
 	@Autowired
 	private MessageRepository messageRepository;
 
